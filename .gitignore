@@ -9,6 +9,7 @@ target/
 src-tauri/target/
 
 # Temporary and caches
+.firebase/
 .converted_docx/
 scripts/.converted_docx/
 scripts/__pycache__/
