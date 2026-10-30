@@ -240,10 +240,16 @@ class CatalogApp {
   }
 }
 
-// Inicializar quando o DOM estiver pronto
-document.addEventListener('DOMContentLoaded', () => {
+// Inicializar quando o DOM estiver pronto ou imediatamente se já carregado
+function startApp(): void {
   const app = new CatalogApp();
   app.init().catch(err => {
     console.error('Falha ao inicializar CatalogApp:', err);
   });
-});
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', startApp);
+} else {
+  startApp();
+}

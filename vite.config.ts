@@ -5,6 +5,8 @@ export default defineConfig({
   server: {
     port: 1420,
     strictPort: true,
+    open: true,
+    host: true,
   },
   build: {
     target: ['es2022', 'chrome100', 'safari15'],

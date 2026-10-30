@@ -54,6 +54,7 @@ class CatalogDatabase {
     const db = await this.openDB();
     const userEdits = await this.getAllUserEdits();
     const customPhotos = await this.getAllCustomPhotos();
+    const allDbProducts = await this.getAllProductsDirect();
 
     const editMap = new Map<string, UserEditRecord>();
     userEdits.forEach(e => editMap.set(e.productId, e));
@@ -95,7 +96,6 @@ class CatalogDatabase {
     }
 
     // Também preserva produtos customizados criados manualmente no balcão
-    const allDbProducts = await this.getAllProductsDirect();
     for (const dbItem of allDbProducts) {
       if (dbItem.isCustom && !mergedProducts.some(p => p.id === dbItem.id)) {
         mergedProducts.push(dbItem);
