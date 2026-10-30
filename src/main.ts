@@ -8,7 +8,7 @@ import rawSeedData from './data/catalog-master-seed.json';
 import { ProductItem, CatalogFilterState } from './types/catalog';
 import { catalogDb } from './db/catalog-db';
 import { CatalogSearchEngine } from './search/search-engine';
-import { renderHeader } from './ui/header';
+import { HeaderComponent } from './ui/header';
 import { renderProductCard } from './ui/product-card';
 import { renderMuralView } from './ui/mural-view';
 import { renderBoxesMapView } from './ui/boxes-map-view';
@@ -33,6 +33,7 @@ class CatalogApp {
   private headerContainer: HTMLElement;
   private mainContainer: HTMLElement;
   private statusBar: HTMLElement;
+  private headerComponent: HeaderComponent | null = null;
 
   constructor() {
     const root = document.getElementById('app');
@@ -60,9 +61,39 @@ class CatalogApp {
     // 2. Registro do Service Worker (Offline-First)
     this.registerServiceWorker();
 
-    // 3. Render Inicial
+    // 3. Monta o Header UMA ÚNICA VEZ (para preservar foco e digitação fluida)
+    const categories = this.getUniqueCategories();
+    const manufacturers = this.getUniqueManufacturers();
+    const specs = this.getUniqueSpecs();
+
+    this.headerComponent = new HeaderComponent(
+      this.headerContainer,
+      this.state,
+      {
+        onFilterChange: (changes) => {
+          this.state = { ...this.state, ...changes };
+          if (changes.darkMode !== undefined) this.applyTheme();
+          this.headerComponent?.updateState(this.state);
+          this.renderMainContent();
+        },
+        onOpenAddModal: () => {
+          productFormModal.open(undefined, async () => {
+            await this.refreshItems();
+          });
+        },
+        onOpenBackupModal: () => {
+          backupModal.open(async () => {
+            await this.refreshItems();
+          });
+        },
+      },
+      categories,
+      manufacturers,
+      specs
+    );
+
     this.applyTheme();
-    this.render();
+    this.renderMainContent();
   }
 
   private registerServiceWorker(): void {
@@ -103,45 +134,18 @@ class CatalogApp {
     return Array.from(set).sort();
   }
 
-  private render(): void {
-    const categories = this.getUniqueCategories();
-    const manufacturers = this.getUniqueManufacturers();
-    const specs = this.getUniqueSpecs();
-
-    // 1. Render Header
-    this.headerContainer.innerHTML = '';
-    const headerEl = renderHeader(
-      this.state,
-      {
-        onFilterChange: (changes) => {
-          this.state = { ...this.state, ...changes };
-          if (changes.darkMode !== undefined) this.applyTheme();
-          this.render();
-        },
-        onOpenAddModal: () => {
-          productFormModal.open(undefined, async (saved) => {
-            await this.refreshItems();
-          });
-        },
-        onOpenBackupModal: () => {
-          backupModal.open(async () => {
-            await this.refreshItems();
-          });
-        },
-      },
-      categories,
-      manufacturers,
-      specs
-    );
-    this.headerContainer.appendChild(headerEl);
-
-    // 2. Executa busca
+  /**
+   * Renderiza a área de produtos e barra de status sem recriar o Header,
+   * garantindo que o input de busca nunca perca o foco enquanto o usuário digita.
+   */
+  private renderMainContent(): void {
+    // 1. Executa busca sub-50ms
     const searchStartTime = performance.now();
     const searchResults = this.searchEngine.search(this.state);
     const searchElapsed = performance.now() - searchStartTime;
     const filteredItems = searchResults.map(r => r.item);
 
-    // 3. Render Main View
+    // 2. Render Main View
     this.mainContainer.innerHTML = '';
 
     if (this.state.viewMode === 'grid') {
@@ -202,7 +206,9 @@ class CatalogApp {
         onSelectBox: (boxNumber) => {
           this.state.query = `cx ${boxNumber}`;
           this.state.viewMode = 'grid';
-          this.render();
+          this.headerComponent?.setQuery(this.state.query);
+          this.headerComponent?.updateState(this.state);
+          this.renderMainContent();
         },
         onEditItem: (prod) => {
           productFormModal.open(prod, async () => {
@@ -213,7 +219,7 @@ class CatalogApp {
       this.mainContainer.appendChild(boxMap);
     }
 
-    // 4. Status Bar
+    // 3. Status Bar
     const uniqueBoxes = new Set(this.allItems.map(i => i.boxNumber || i.internalCode).filter(Boolean));
     this.statusBar.innerHTML = `
       <div class="flex items-center gap-3">
@@ -236,7 +242,7 @@ class CatalogApp {
   private async refreshItems(): Promise<void> {
     this.allItems = await catalogDb.getAllProducts();
     this.searchEngine.setItems(this.allItems);
-    this.render();
+    this.renderMainContent();
   }
 }
 
