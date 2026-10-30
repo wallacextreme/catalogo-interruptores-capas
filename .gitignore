@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+.bun/
+
+# Build outputs
+dist/
+build/
+target/
+src-tauri/target/
+
+# Temporary and caches
+.converted_docx/
+scripts/.converted_docx/
+scripts/__pycache__/
+__pycache__/
+*.pyc
+.playwright_scrape_cache.json
+.DS_Store
+Thumbs.db
+
+# Environment and local settings
+.env
+.env.local
+*.log

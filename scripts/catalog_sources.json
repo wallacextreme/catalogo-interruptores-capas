@@ -1,0 +1,100 @@
+{
+  "sources": [
+    {
+      "id": "marilia",
+      "name": "Marília Autopeças",
+      "brand": "Marília",
+      "codePrefixes": ["IM-", "IM"],
+      "baseUrl": "https://www.marilia-autopecas.com.br",
+      "searchUrlTemplate": "https://www.marilia-autopecas.com.br/busca?q={sku}",
+      "productUrlTemplate": "https://www.marilia-autopecas.com.br/produto/{sku}",
+      "searchBarSelector": "input[type='search'], input[name='q'], input[placeholder*='busca']",
+      "gallerySelector": ".produto-imagens img, .product-gallery img, .carousel-item img",
+      "zoomImageSelector": "img[data-zoom-image], a.cloud-zoom"
+    },
+    {
+      "id": "dpaula",
+      "name": "D'Paula Peças",
+      "brand": "D'Paula",
+      "codePrefixes": ["DP-", "DP"],
+      "baseUrl": "http://www.dpaula.com.br",
+      "searchUrlTemplate": "http://www.dpaula.com.br/pesquisa?termo={sku}",
+      "productUrlTemplate": "http://www.dpaula.com.br/produto/{sku}",
+      "searchBarSelector": "#busca, input[name='termo']",
+      "gallerySelector": ".fotos-produto img, #zoom-produto img",
+      "zoomImageSelector": "a[data-image-large]"
+    },
+    {
+      "id": "kostal",
+      "name": "Kostal Brasil",
+      "brand": "Kostal",
+      "codePrefixes": ["K", "1001", "3813"],
+      "baseUrl": "https://www.kostalbrasil.com.br",
+      "searchUrlTemplate": "https://www.kostalbrasil.com.br/catalogo?busca={sku}",
+      "productUrlTemplate": "https://www.kostalbrasil.com.br/produto/{sku}",
+      "searchBarSelector": "#search, input[name='busca']",
+      "gallerySelector": ".product-images img, .zoom-gallery img",
+      "zoomImageSelector": ".zoom-view img"
+    },
+    {
+      "id": "dni",
+      "name": "DNI Eletroeletrônica",
+      "brand": "DNI",
+      "codePrefixes": ["DNI", "2081", "2190", "4001"],
+      "baseUrl": "https://www.dni.com.br",
+      "searchUrlTemplate": "https://www.dni.com.br/catalogo-busca?q={sku}",
+      "productUrlTemplate": "https://www.dni.com.br/produto/{sku}",
+      "searchBarSelector": "input[name='q']",
+      "gallerySelector": ".product-view img",
+      "zoomImageSelector": ".highslide img"
+    },
+    {
+      "id": "ospina",
+      "name": "Ospina Indústria",
+      "brand": "Ospina",
+      "codePrefixes": ["OP", "8400", "8424"],
+      "baseUrl": "https://www.ospina.com.br",
+      "searchUrlTemplate": "https://www.ospina.com.br/catalogo?termo={sku}",
+      "productUrlTemplate": "https://www.ospina.com.br/peca/{sku}",
+      "searchBarSelector": "input.search-input",
+      "gallerySelector": ".product-gallery img",
+      "zoomImageSelector": "img.zoom"
+    },
+    {
+      "id": "diretec",
+      "name": "Diretec Comutadores e Interruptores",
+      "brand": "DTC / Diretec",
+      "codePrefixes": ["DTC-", "DTC"],
+      "baseUrl": "https://www.diretec.com.br",
+      "searchUrlTemplate": "https://www.diretec.com.br/produtos?busca={sku}",
+      "productUrlTemplate": "https://www.diretec.com.br/produto/{sku}",
+      "searchBarSelector": "#search-field",
+      "gallerySelector": ".product-photo img",
+      "zoomImageSelector": ".zoom-img"
+    },
+    {
+      "id": "unifap",
+      "name": "Unifap Autopeças",
+      "brand": "Unifap",
+      "codePrefixes": ["UNM", "UNF"],
+      "baseUrl": "https://www.unifap.com.br",
+      "searchUrlTemplate": "https://www.unifap.com.br/busca?q={sku}",
+      "productUrlTemplate": "https://www.unifap.com.br/item/{sku}",
+      "searchBarSelector": "input[name='q']",
+      "gallerySelector": ".galeria img",
+      "zoomImageSelector": "a.lightbox"
+    },
+    {
+      "id": "echlin",
+      "name": "Echlin Elétrica",
+      "brand": "Echlin",
+      "codePrefixes": ["ECH-", "ECH", "EC-"],
+      "baseUrl": "https://www.echlin.com.br",
+      "searchUrlTemplate": "https://www.echlin.com.br/pesquisa?sku={sku}",
+      "productUrlTemplate": "https://www.echlin.com.br/pecas/{sku}",
+      "searchBarSelector": "input[name='search']",
+      "gallerySelector": ".images img",
+      "zoomImageSelector": ".zoom img"
+    }
+  ]
+}
